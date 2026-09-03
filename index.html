@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TibiaME Online - Главная</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ======== ВАШИ СТИЛИ (без изменений) ======== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('./fon.png');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #f0f4ff; min-height: 100vh; display: flex; flex-direction: column;
+        }
+        .header { background: transparent; padding: 20px 40px 15px 40px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .logo-button { display: flex; align-items: center; justify-content: center; background: transparent; border: none; cursor: pointer; transition: transform 0.2s ease; padding: 5px 10px; border-radius: 12px; text-decoration: none; }
+        .logo-button:hover { transform: scale(1.05); }
+        .logo-img { height: 200px; width: auto; display: block; }
+        .nav-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 5px 0; }
+        .nav-menu a { color: #b0c7e7; text-decoration: none; padding: 10px 20px; border-radius: 30px; font-weight: 600; font-size: 16px; transition: all 0.25s ease; background: rgba(255, 255, 255, 0.03); border: 1px solid transparent; letter-spacing: 0.3px; }
+        .nav-menu a i { margin-right: 8px; font-size: 16px; }
+        .nav-menu a:hover { color: #ffffff; background: rgba(76, 201, 240, 0.15); border-color: #4cc9f0; transform: translateY(-2px); }
+        .nav-menu a.active { color: #ffffff; background: linear-gradient(135deg, #ff4d6d, #d6285a); border-color: #ff4d6d; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3); }
+        .main-content { flex: 1; max-width: 1200px; margin: 40px auto; padding: 0 25px; width: 100%; }
+        .hero { background: rgba(10, 14, 30, 0.75); backdrop-filter: blur(4px); border-radius: 40px; padding: 50px 40px; text-align: center; border: 1px solid rgba(76, 201, 240, 0.2); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); margin-bottom: 40px; min-height: 300px; }
+        .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 20px; background: linear-gradient(135deg, #4cc9f0, #ff4d6d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { font-size: 20px; max-width: 700px; margin: 0 auto 30px; color: #c8d8f0; line-height: 1.6; }
+        .hero-decor { display: inline-block; background: rgba(255, 77, 109, 0.15); padding: 8px 24px; border-radius: 50px; border: 1px solid rgba(255, 77, 109, 0.3); font-size: 14px; color: #ffb3c6; letter-spacing: 1px; text-decoration: none; transition: all 0.3s ease; }
+        .hero-decor:hover { transform: scale(1.05); background: rgba(255, 77, 109, 0.3); border-color: #ff4d6d; box-shadow: 0 0 20px rgba(255, 77, 109, 0.3); }
+        
+        /* Блок Топ-игроков */
+        .top-players { background: rgba(10, 14, 30, 0.75); backdrop-filter: blur(4px); border-radius: 40px; padding: 40px 35px; border: 1px solid rgba(76, 201, 240, 0.2); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); margin-bottom: 40px; }
+        .top-players h2 { font-size: 32px; font-weight: 700; background: linear-gradient(135deg, #ffd700, #ff6b00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 25px; text-align: center; }
+        .top-players h2 i { margin-right: 12px; -webkit-text-fill-color: initial; color: #ffd700; }
+        .top-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+        .top-table thead tr { background: rgba(255, 215, 0, 0.15); border-bottom: 2px solid #ffd700; }
+        .top-table th { padding: 14px 16px; text-align: left; color: #ffd700; font-weight: 700; }
+        .top-table td { padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #e0e8f5; }
+        .top-table tbody tr:hover { background: rgba(76, 201, 240, 0.08); }
+        .top-table .medal { font-size: 22px; margin-right: 6px; }
+        .top-table .place-1 { color: #ffd700; }
+        .top-table .place-2 { color: #c0c0c0; }
+        .top-table .place-3 { color: #cd7f32; }
+        .top-table .world-badge { display: inline-block; background: rgba(76, 201, 240, 0.15); padding: 2px 12px; border-radius: 20px; font-size: 13px; color: #4cc9f0; font-weight: 600; }
+        .top-table .exp-number { color: #a8b9d9; font-size: 14px; }
+        .top-table .level-number { font-weight: 700; color: #ffffff; }
+
+        /* Блок Новостей */
+        .news-block { background: rgba(10, 14, 30, 0.75); backdrop-filter: blur(4px); border-radius: 40px; padding: 40px 35px; border: 1px solid rgba(76, 201, 240, 0.2); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); margin-bottom: 40px; }
+        .news-block h2 { font-size: 32px; font-weight: 700; color: #4cc9f0; margin-bottom: 25px; text-align: center; }
+        .news-block h2 i { margin-right: 12px; }
+        .news-item { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .news-item:last-child { border-bottom: none; }
+        .news-item .title { font-size: 18px; font-weight: 600; }
+        .news-item .title a { color: #e0e8f5; text-decoration: none; transition: 0.3s; }
+        .news-item .title a:hover { color: #4cc9f0; text-decoration: underline; }
+        .news-item .meta { display: flex; gap: 15px; margin-top: 6px; font-size: 13px; color: #7a8db0; flex-wrap: wrap; }
+        .news-item .meta .author { color: #ffb3c6; }
+        .news-item .excerpt { margin-top: 6px; color: #a8b9d9; font-size: 14px; line-height: 1.5; }
+
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 20px; }
+        .feature-card { background: rgba(20, 28, 58, 0.8); backdrop-filter: blur(4px); padding: 28px 20px; border-radius: 24px; text-align: center; border: 1px solid rgba(76, 201, 240, 0.1); transition: all 0.3s ease; }
+        .feature-card:hover { transform: translateY(-8px); border-color: #4cc9f0; box-shadow: 0 12px 30px rgba(76, 201, 240, 0.15); }
+        .feature-card .icon { font-size: 40px; margin-bottom: 12px; display: block; }
+        .feature-card h3 { color: #ffffff; margin-bottom: 8px; font-size: 20px; }
+        .feature-card p { color: #9bb1d0; font-size: 15px; line-height: 1.5; }
+
+        .footer { text-align: center; padding: 25px; border-top: none; color: #b0c7e7; font-size: 14px; margin-top: 20px; background: transparent; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); }
+
+        @media (max-width: 700px) {
+            .header { padding: 15px 20px; gap: 10px; }
+            .logo-img { height: 120px; }
+            .nav-menu a { padding: 8px 14px; font-size: 14px; }
+            .nav-menu a i { font-size: 14px; margin-right: 6px; }
+            .hero h1 { font-size: 32px; }
+            .hero { padding: 30px 20px; }
+            .top-table { font-size: 13px; }
+            .top-table th, .top-table td { padding: 8px 8px; }
+            .top-table .exp-number { font-size: 11px; }
+            .top-players, .news-block { padding: 20px 15px; }
+            .top-players h2, .news-block h2 { font-size: 24px; }
+            .news-item .title { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА -->
+    <header class="header">
+        <a href="index.html" class="logo-button" title="На главную">
+            <img src="./knopka.png" alt="TibiaME Online" class="logo-img">
+        </a>
+        <nav class="nav-menu">
+            <a href="#" class="active"><i class="fas fa-home"></i> Главная</a>
+            <a href="#"><i class="fas fa-trophy"></i> Топ</a>
+            <a href="#"><i class="fas fa-database"></i> База данных</a>
+            <a href="#"><i class="fas fa-star"></i> Рейтинг</a>
+            <a href="#"><i class="fas fa-newspaper"></i> Новости</a>
+            <a href="#"><i class="fas fa-info-circle"></i> О нас</a>
+        </nav>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <main class="main-content">
+
+        <!-- ПРИВЕТСТВИЕ -->
+        <section class="hero">
+            <h1>Добро пожаловать в TibiaME!</h1>
+            <p>Крупнейший русскоязычный портал по игре TibiaME. Здесь вы найдёте базу знаний, актуальные новости, топ игроков и многое другое.</p>
+            <a href="https://t.me/tibiameonline" target="_blank" class="hero-decor">✦ Присоединяйся к сообществу ✦</a>
+        </section>
+
+        <!-- БЛОК ТОП ИГРОКОВ -->
+        <section class="top-players" id="topPlayers">
+            <h2><i class="fas fa-crown"></i> Топ игроков по уровню</h2>
+            <div id="topPlayersLoading" style="text-align:center; padding:30px; color:#8a9bb8;">
+                <i class="fas fa-spinner fa-pulse fa-2x"></i> Загрузка данных...
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="top-table" id="topTable" style="display:none;">
+                    <thead><tr><th>#</th><th>Имя</th><th>Мир</th><th>Уровень</th><th>Опыт</th></tr></thead>
+                    <tbody id="topTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- БЛОК НОВОСТЕЙ -->
+        <section class="news-block" id="newsBlock">
+            <h2><i class="fas fa-newspaper"></i> Последние новости</h2>
+            <div id="newsLoading" style="text-align:center; padding:30px; color:#8a9bb8;">
+                <i class="fas fa-spinner fa-pulse fa-2x"></i> Загрузка новостей...
+            </div>
+            <div id="newsList" style="display:none;"></div>
+        </section>
+
+        <!-- КАРТОЧКИ РАЗДЕЛОВ -->
+        <div class="features-grid">
+            <div class="feature-card"><span class="icon">📜</span><h3>База данных</h3><p>Мобы, предметы, заклинания и квесты — всё в одном месте.</p></div>
+            <div class="feature-card"><span class="icon">🏆</span><h3>Рейтинг</h3><p>Топ игроков, гильдий и PvP-статистика.</p></div>
+            <div class="feature-card"><span class="icon">📰</span><h3>Новости</h3><p>Следите за обновлениями и событиями в реальном времени.</p></div>
+            <div class="feature-card"><span class="icon">🤝</span><h3>О нас</h3><p>История проекта и команда разработчиков.</p></div>
+        </div>
+    </main>
+
+    <!-- ФУТЕР -->
+    <footer class="footer">© 2026 TibiaME Online · Неофициальный проект · Сделано с ❤️ для игроков</footer>
+
+    <!-- ============================================================ -->
+    <!-- JAVASCRIPT: ПАРСИНГ С ТОЧНЫМИ СЕЛЕКТОРАМИ                    -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ---------- 1. ПАРСИНГ ТОП-ИГРОКОВ ----------
+            async function fetchTopPlayers() {
+                const loading = document.getElementById('topPlayersLoading');
+                const table = document.getElementById('topTable');
+                const tbody = document.getElementById('topTableBody');
+
+                try {
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                    const targetUrl = 'https://www.tibiamestats.com/rankings?type=experience';
+                    
+                    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+                    const html = await response.text();
+                    
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    // Ищем таблицу с топ-игроками
+                    const rows = doc.querySelectorAll('table tbody tr');
+                    
+                    const players = [];
+                    rows.forEach(row => {
+                        const cols = row.querySelectorAll('td');
+                        if (cols.length >= 5) {
+                            // Убираем номер места из первого столбца (там может быть иконка)
+                            const place = cols[0]?.textContent?.trim() || '';
+                            const name = cols[1]?.textContent?.trim() || '—';
+                            const world = cols[2]?.textContent?.trim() || '—';
+                            const level = cols[3]?.textContent?.trim() || '—';
+                            const exp = cols[4]?.textContent?.trim() || '—';
+                            
+                            if (name !== '—' && name !== '') {
+                                players.push({ name, world, level, exp });
+                            }
+                        }
+                    });
+                    
+                    if (players.length === 0) {
+                        // Пробуем альтернативный селектор
+                        const altRows = doc.querySelectorAll('.rankings-table tbody tr, .highscores-table tbody tr');
+                        altRows.forEach(row => {
+                            const cols = row.querySelectorAll('td');
+                            if (cols.length >= 4) {
+                                const name = cols[1]?.textContent?.trim() || '—';
+                                const world = cols[2]?.textContent?.trim() || '—';
+                                const level = cols[3]?.textContent?.trim() || '—';
+                                const exp = cols[4]?.textContent?.trim() || '—';
+                                if (name !== '—' && name !== '') {
+                                    players.push({ name, world, level, exp });
+                                }
+                            }
+                        });
+                    }
+                    
+                    if (players.length === 0) {
+                        throw new Error('Не удалось найти данные на странице');
+                    }
+                    
+                    renderTopPlayers(players.slice(0, 10));
+                    loading.style.display = 'none';
+                    table.style.display = 'table';
+                    
+                } catch (error) {
+                    console.error('Ошибка загрузки топ-игроков:', error);
+                    loading.innerHTML = '⚠️ Не удалось загрузить топ-игроков. Используем тестовые данные.';
+                    const fallbackPlayers = [
+                        { name: 'Godfather', world: 'World 35', level: '417', exp: '24 864 966 179' },
+                        { name: 'Superpower', world: 'World 35', level: '405', exp: '22 259 510 900' },
+                        { name: 'Wolfman', world: 'World 36', level: '398', exp: '20 614 826 433' },
+                        { name: 'Godmother', world: 'World 35', level: '393', exp: '19 677 740 946' },
+                        { name: 'Maxprince', world: 'World 32', level: '391', exp: '19 197 414 401' }
+                    ];
+                    renderTopPlayers(fallbackPlayers);
+                    loading.style.display = 'none';
+                    table.style.display = 'table';
+                }
+            }
+
+            function renderTopPlayers(players) {
+                const tbody = document.getElementById('topTableBody');
+                const medals = ['🥇', '🥈', '🥉'];
+                let html = '';
+                players.forEach((player, index) => {
+                    const place = index + 1;
+                    let medalHtml = place <= 3 ? `<span class="medal place-${place}">${medals[index]}</span>` : place;
+                    html += `
+                        <tr>
+                            <td>${medalHtml}</td>
+                            <td><strong>${player.name}</strong></td>
+                            <td><span class="world-badge">${player.world}</span></td>
+                            <td><span class="level-number">${player.level}</span></td>
+                            <td><span class="exp-number">${player.exp} EP</span></td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
+            }
+
+            // ---------- 2. ПАРСИНГ НОВОСТЕЙ (С ТОЧНЫМИ СЕЛЕКТОРАМИ) ----------
+            async function fetchNews() {
+                const loading = document.getElementById('newsLoading');
+                const list = document.getElementById('newsList');
+
+                try {
+                    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                    const targetUrl = 'https://www.tibiamestats.com/news';
+                    
+                    const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+                    const html = await response.text();
+                    
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    // ТОЧНЫЕ СЕЛЕКТОРЫ из вашего HTML-файла
+                    const newsCards = doc.querySelectorAll('.news-index-card');
+                    
+                    const news = [];
+                    newsCards.forEach(card => {
+                        const titleElem = card.querySelector('.news-index-title a');
+                        const dateElem = card.querySelector('.news-date');
+                        const excerptElem = card.querySelector('.news-teaser-excerpt');
+                        const authorElem = card.querySelector('.news-author');
+                        const linkElem = card.querySelector('.news-read-more');
+                        
+                        const title = titleElem?.textContent?.trim() || 'Новость';
+                        const link = titleElem?.getAttribute('href') || '#';
+                        const fullLink = link.startsWith('http') ? link : 'https://www.tibiamestats.com' + link;
+                        const date = dateElem?.textContent?.trim() || 'Дата неизвестна';
+                        const excerpt = excerptElem?.textContent?.trim() || '';
+                        const author = authorElem?.textContent?.trim() || 'CipSoft News';
+                        
+                        news.push({ title, link: fullLink, date, excerpt, author });
+                    });
+                    
+                    if (news.length === 0) {
+                        throw new Error('Новости не найдены');
+                    }
+                    
+                    renderNews(news.slice(0, 5));
+                    loading.style.display = 'none';
+                    list.style.display = 'block';
+                    
+                } catch (error) {
+                    console.error('Ошибка загрузки новостей:', error);
+                    loading.innerHTML = '⚠️ Не удалось загрузить новости. Используем тестовые данные.';
+                    const fallbackNews = [
+                        { title: 'Double EP началось!', link: '#', date: 'Сегодня', excerpt: 'С 28 по 30 августа действует двойной опыт!', author: 'CipSoft News' },
+                        { title: 'Новый ивент на World 32', link: '#', date: 'Вчера', excerpt: 'Борьба с читерами на World 32 продолжается.', author: 'CipSoft News' },
+                        { title: 'Обновление игры 2026', link: '#', date: '2 дня назад', excerpt: 'Вышло первое обновление 2026 года.', author: 'CipSoft News' }
+                    ];
+                    renderNews(fallbackNews);
+                    loading.style.display = 'none';
+                    list.style.display = 'block';
+                }
+            }
+
+            function renderNews(news) {
+                const list = document.getElementById('newsList');
+                let html = '';
+                news.forEach(item => {
+                    html += `
+                        <div class="news-item">
+                            <div class="title"><a href="${item.link}" target="_blank">${item.title}</a></div>
+                            <div class="meta">
+                                <span class="author">${item.author}</span>
+                                <span>📅 ${item.date}</span>
+                            </div>
+                            ${item.excerpt ? `<div class="excerpt">${item.excerpt}</div>` : ''}
+                        </div>
+                    `;
+                });
+                list.innerHTML = html;
+            }
+
+            // ---------- 3. ЗАПУСК ----------
+            fetchTopPlayers();
+            fetchNews();
+
+            // Автообновление каждые 5 минут
+            setInterval(() => {
+                fetchTopPlayers();
+                fetchNews();
+            }, 300000);
+
+        })();
+    </script>
+</body>
+</html>
